@@ -6,21 +6,40 @@ AI-powered Playwright testing platform with failure diagnosis.
 
 ### Backend Setup
 
+Run these commands from the repository root (`testpilot-ai`), not from inside
+the `backend` directory:
+
 ```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate  # Windows
-pip install fastapi uvicorn sqlalchemy pydantic pydantic-settings python-multipart passlib bcrypt
-python -c "from database import init_db; init_db()"
-python main.py
+python -m venv backend\venv
+backend\venv\Scripts\activate
+python -m pip install -r backend\requirements.txt
+python -m backend.init_db
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 8001
 ```
 
-Backend: http://localhost:8000
+If your terminal is already in `backend`, first return to the repository root:
+
+```powershell
+Set-Location ..
+```
+
+If `venv` already exists or Python reports a package import error involving
+`pydantic_core`, recreate the environment before installing dependencies:
+
+```powershell
+deactivate
+Remove-Item -Recurse -Force .\backend\venv
+python -m venv .\backend\venv
+.\backend\venv\Scripts\Activate.ps1
+python -m pip install -r .\backend\requirements.txt
+```
+
+Backend: http://localhost:8001
 
 ### Test
 
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8001/health
 ```
 
 ## Status
