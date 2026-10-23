@@ -2,6 +2,22 @@
 
 AI-powered Playwright testing platform with failure diagnosis.
 
+Repository: https://github.com/0xyz-exe/testpilot-ai
+
+## Screenshots
+
+### Test Execution & Run Overview
+![Test runs](docs/screenshots/01_test_runs.png)
+
+### AI Root-Cause Failure Diagnosis
+![AI diagnosis](docs/screenshots/02_ai_diagnosis.png)
+
+### Playwright Test Suite Management
+![Test editor](docs/screenshots/03_test_editor.png)
+
+### Test Metrics & Diagnostic Reports
+![Test reports](docs/screenshots/04_test_reports.png)
+
 ## Quick Start
 
 ### Backend Setup
