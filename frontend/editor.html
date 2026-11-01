@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestPilot AI - Playwright Test Suite Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0a',
+            surface: '#141414',
+            surfaceHover: '#1c1c1c',
+            border: '#262626',
+            pass: '#10b981',
+            fail: '#ef4444',
+            flaky: '#f59e0b',
+            running: '#3b82f6',
+            draft: '#8b5cf6',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0a0a0a; color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0a0a0a]">
+  <!-- Navigation Header -->
+  <header class="border-b border-[#262626] bg-[#141414]/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 font-black text-sm">
+            ⚡
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">TestPilot AI</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">PLAYWRIGHT ENGINE v1.48</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-1">
+          <a href="/" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Test Runs</a>
+          <a href="/diagnosis.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">AI Diagnosis</a>
+          <a href="/editor.html" class="px-3 py-1.5 rounded-md text-sm font-semibold bg-[#262626] text-white">Suite & Editor</a>
+          <a href="/reports.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Metrics & Reports</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2 px-2.5 py-1 rounded-full bg-blue-950/60 border border-blue-800/60 text-blue-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+          <span>AUTOSAVE ENABLED</span>
+        </div>
+        <div class="text-xs text-zinc-400 font-mono">secops@testpilot.ai</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8 space-y-6">
+    <!-- Breadcrumb & Top Bar -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#262626] pb-6">
+      <div>
+        <div class="flex items-center gap-2 text-xs text-zinc-400 font-mono mb-1">
+          <span>E-Commerce Storefront Platform</span>
+          <span>/</span>
+          <span class="text-zinc-200">Suites & Test Code Editor</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <h1 class="text-3xl font-extrabold tracking-tight text-white">Playwright Test Suite Management</h1>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/30">
+            4 Suites • 8 Tests
+          </span>
+        </div>
+        <p class="text-zinc-400 mt-1">
+          Visual test suite hierarchy, AI-assisted spec authoring, and real-time Playwright code execution sandbox.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-lg text-xs font-semibold">
+          + New Suite
+        </button>
+        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-blue-600/20 flex items-center gap-1.5">
+          <span>⚡</span> Generate Test Spec
+        </button>
+      </div>
+    </div>
+
+    <!-- 2-Column Suite Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Left Column: Suite Hierarchy (4 cols) -->
+      <div class="lg:col-span-4 bg-[#141414] border border-[#262626] rounded-2xl p-4 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-[#262626]">
+          <span class="text-xs font-bold text-zinc-300 uppercase tracking-wider font-mono">Test Suites Directory</span>
+          <span class="text-[11px] text-zinc-500 font-mono">3 Active Suites</span>
+        </div>
+
+        <div class="space-y-2">
+          <!-- Suite 1 (Active) -->
+          <div class="bg-[#1c1c1c] border border-blue-600/40 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-sm">Authentication Suite</span>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">ACTIVE</span>
+            </div>
+            <div class="space-y-1.5 pl-2 border-l-2 border-blue-500/40 text-xs">
+              <div class="flex items-center justify-between py-1 px-2 rounded bg-blue-950/30 text-white font-medium">
+                <span class="truncate">✓ user authentication 2FA</span>
+                <span class="text-[10px] font-mono text-emerald-400">PASSED</span>
+              </div>
+              <div class="flex items-center justify-between py-1 px-2 rounded hover:bg-zinc-800 text-zinc-300">
+                <span class="truncate">✗ invalid credentials toast</span>
+                <span class="text-[10px] font-mono text-rose-400">FAILED</span>
+              </div>
+              <div class="flex items-center justify-between py-1 px-2 rounded hover:bg-zinc-800 text-zinc-300">
+                <span class="truncate">✓ session expiry redirect</span>
+                <span class="text-[10px] font-mono text-emerald-400">PASSED</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suite 2 -->
+          <div class="bg-[#141414] border border-[#262626] hover:border-zinc-700 rounded-xl p-3 space-y-2 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold text-zinc-200 text-sm">Shopping Cart & Checkout</span>
+              <span class="text-[10px] font-mono text-zinc-500">2 tests</span>
+            </div>
+            <div class="space-y-1.5 pl-2 border-l-2 border-zinc-700 text-xs text-zinc-400">
+              <div class="truncate">✓ add variant to cart</div>
+              <div class="truncate text-amber-400">⚠ remove item (FLAKY)</div>
+            </div>
+          </div>
+
+          <!-- Suite 3 -->
+          <div class="bg-[#141414] border border-[#262626] hover:border-zinc-700 rounded-xl p-3 space-y-2 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold text-zinc-200 text-sm">Biometric & 2FA TOTP</span>
+              <span class="text-[10px] font-mono text-zinc-500">2 tests</span>
+            </div>
+            <div class="space-y-1.5 pl-2 border-l-2 border-zinc-700 text-xs text-zinc-400">
+              <div class="truncate">✓ passkey verification</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: AI Generator & Code Editor (8 cols) -->
+      <div class="lg:col-span-8 space-y-5">
+        <!-- AI Prompt Generator Box -->
+        <div class="bg-[#141414] border border-[#262626] rounded-2xl p-5 shadow-xl space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-blue-400 text-base">🤖</span>
+              <span class="text-xs font-bold text-zinc-200 uppercase tracking-wider font-mono">Natural Language Test Generator</span>
+            </div>
+            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+              GPT-4o Synthesizer Ready
+            </span>
+          </div>
+
+          <div class="relative">
+            <textarea
+              class="w-full bg-[#0a0a0a] border border-[#262626] rounded-xl p-3 text-xs text-zinc-200 font-mono focus:outline-none focus:border-blue-500 leading-relaxed"
+              rows="2"
+              readonly
+            >Verify that user can authenticate with 2FA TOTP code and redirect to dashboard with valid session_token cookie</textarea>
+          </div>
+
+          <div class="flex items-center justify-between flex-wrap gap-3 pt-1">
+            <div class="flex items-center gap-3 text-xs font-mono text-zinc-400">
+              <span>Target: <strong class="text-zinc-200">Chromium 130</strong></span>
+              <span>•</span>
+              <span>Assertions: <strong class="text-emerald-400">Strict Web-First</strong></span>
+            </div>
+            <button class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow-md shadow-blue-600/30 flex items-center gap-1.5">
+              <span>⚡</span> Synthesize Spec
+            </button>
+          </div>
+        </div>
+
+        <!-- Playwright Code Editor -->
+        <div class="bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden shadow-xl">
+          <div class="p-4 bg-[#1a1a1a] border-b border-[#262626] flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono font-bold text-white">tests/auth/totp_flow.spec.ts</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                APPROVED
+              </span>
+              <span class="text-[10px] font-mono text-zinc-400">TypeScript</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-1 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 rounded border border-zinc-700">
+                Format
+              </button>
+              <button class="px-4 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold shadow-sm shadow-emerald-600/30 flex items-center gap-1">
+                <span>▶</span> Run in Sandbox
+              </button>
+            </div>
+          </div>
+
+          <!-- Code Editor Body -->
+          <div class="p-4 bg-[#0a0a0a] font-mono text-xs overflow-x-auto leading-relaxed text-zinc-300">
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">1</span><span class="text-purple-400">import</span> { test, expect } <span class="text-purple-400">from</span> <span class="text-emerald-300">'@playwright/test'</span>;</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">2</span></div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">3</span>test(<span class="text-emerald-300">'user authentication with 2FA TOTP challenge'</span>, <span class="text-purple-400">async</span> ({ page }) =&gt; {</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">4</span>  <span class="text-zinc-500">// Step 1: Navigate to login and fill primary credentials</span></div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">5</span>  <span class="text-purple-400">await</span> page.goto(<span class="text-emerald-300">'/login'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">6</span>  <span class="text-purple-400">await</span> page.fill(<span class="text-emerald-300">'input#email'</span>, <span class="text-emerald-300">'secops@testpilot.ai'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">7</span>  <span class="text-purple-400">await</span> page.fill(<span class="text-emerald-300">'input#password'</span>, <span class="text-emerald-300">'ValidPass2026!'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">8</span>  <span class="text-purple-400">await</span> page.click(<span class="text-emerald-300">'button.submit-btn[data-testid="login-submit"]'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">9</span></div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">10</span>  <span class="text-zinc-500">// Step 2: Handle 2FA TOTP step-up modal verification</span></div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">11</span>  <span class="text-blue-400">const</span> totpModal = page.locator(<span class="text-emerald-300">'#totp-modal'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">12</span>  <span class="text-purple-400">await</span> expect(totpModal).toBeVisible({ timeout: <span class="text-amber-300">5000</span> });</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">13</span>  <span class="text-purple-400">await</span> page.fill(<span class="text-emerald-300">'input[name="totp_token"]'</span>, <span class="text-emerald-300">'482910'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">14</span>  <span class="text-purple-400">await</span> page.click(<span class="text-emerald-300">'button#verify-totp'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">15</span></div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">16</span>  <span class="text-zinc-500">// Step 3: Assert dashboard routing and session cookie</span></div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">17</span>  <span class="text-purple-400">await</span> expect(page).toHaveURL(<span class="text-emerald-300">'/dashboard'</span>);</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">18</span>  <span class="text-purple-400">await</span> expect(page.locator(<span class="text-emerald-300">'.user-avatar'</span>)).toBeVisible();</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">19</span>  <span class="text-blue-400">const</span> cookies = <span class="text-purple-400">await</span> page.context().cookies();</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">20</span>  expect(cookies.some(c =&gt; c.name === <span class="text-emerald-300">'session_token'</span>)).toBeTruthy();</div>
+            <div class="flex"><span class="text-zinc-600 w-8 select-none text-right mr-4">21</span>});</div>
+          </div>
+
+          <!-- Bottom Footer Bar -->
+          <div class="px-5 py-3 bg-[#1a1a1a] border-t border-[#262626] flex items-center justify-between text-xs text-zinc-400">
+            <div class="flex items-center gap-4">
+              <span>Lines: <strong class="text-zinc-200">21</strong></span>
+              <span>Characters: <strong class="text-zinc-200">890</strong></span>
+              <span>Tags: <code class="text-blue-300">["auth", "2fa", "regression"]</code></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-bold shadow-md shadow-blue-600/30">
+                💾 Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

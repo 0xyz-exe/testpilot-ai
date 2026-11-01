@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestPilot AI - Test Metrics & Diagnostic Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0a',
+            surface: '#141414',
+            surfaceHover: '#1c1c1c',
+            border: '#262626',
+            pass: '#10b981',
+            fail: '#ef4444',
+            flaky: '#f59e0b',
+            running: '#3b82f6',
+            draft: '#8b5cf6',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0a0a0a; color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0a0a0a]">
+  <!-- Navigation Header -->
+  <header class="border-b border-[#262626] bg-[#141414]/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 font-black text-sm">
+            ⚡
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">TestPilot AI</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">PLAYWRIGHT ENGINE v1.48</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-1">
+          <a href="/" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Test Runs</a>
+          <a href="/diagnosis.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">AI Diagnosis</a>
+          <a href="/editor.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Suite & Editor</a>
+          <a href="/reports.html" class="px-3 py-1.5 rounded-md text-sm font-semibold bg-[#262626] text-white">Metrics & Reports</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>REPORT AGGREGATION: LIVE</span>
+        </div>
+        <div class="text-xs text-zinc-400 font-mono">secops@testpilot.ai</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8 space-y-8">
+    <!-- Breadcrumb & Top Bar -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#262626] pb-6">
+      <div>
+        <div class="flex items-center gap-2 text-xs text-zinc-400 font-mono mb-1">
+          <span>Quality Engineering Analytics</span>
+          <span>/</span>
+          <span class="text-zinc-200">Execution Metrics & Flakiness Intelligence</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <h1 class="text-3xl font-extrabold tracking-tight text-white">Test Metrics & Diagnostic Reports</h1>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            Health Index: 92.7%
+          </span>
+        </div>
+        <p class="text-zinc-400 mt-1">
+          Comprehensive test suite execution velocity, flaky test root cause tracking, and historical run comparisons.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button class="px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+          <span>📄</span> Export PDF Summary
+        </button>
+        <button class="px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+          <span>📊</span> JUnit XML
+        </button>
+        <button class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow-md shadow-blue-600/30 flex items-center gap-1.5">
+          <span>📑</span> Allure Report
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 KPI Metrics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 relative overflow-hidden">
+        <div class="text-xs font-medium text-zinc-400">Total Executed Runs</div>
+        <div class="mt-2 text-3xl font-bold text-white tracking-tight font-mono">248</div>
+        <div class="mt-2 text-xs text-emerald-400 flex items-center gap-1 font-mono">
+          <span>↑ +12.4%</span>
+          <span class="text-zinc-500 font-sans">vs previous 7d</span>
+        </div>
+      </div>
+
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 relative overflow-hidden">
+        <div class="text-xs font-medium text-zinc-400">Global Pass Rate</div>
+        <div class="mt-2 text-3xl font-bold text-emerald-400 tracking-tight font-mono">92.7%</div>
+        <div class="mt-2 text-xs text-zinc-400 font-mono">
+          230 Passed • 18 Failed/Flaky
+        </div>
+      </div>
+
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 relative overflow-hidden">
+        <div class="text-xs font-medium text-zinc-400">Flaky Test Ratio</div>
+        <div class="mt-2 text-3xl font-bold text-amber-400 tracking-tight font-mono">4.1%</div>
+        <div class="mt-2 text-xs text-emerald-400 flex items-center gap-1 font-mono">
+          <span>✓ Below 5.0% threshold</span>
+        </div>
+      </div>
+
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 relative overflow-hidden">
+        <div class="text-xs font-medium text-zinc-400">Mean Run Duration</div>
+        <div class="mt-2 text-3xl font-bold text-blue-400 tracking-tight font-mono">2.84s</div>
+        <div class="mt-2 text-xs text-zinc-400 font-mono">
+          4 Parallel Workers Active
+        </div>
+      </div>
+    </div>
+
+    <!-- Flaky Test Tracker Matrix -->
+    <div class="bg-[#141414] border border-[#262626] rounded-2xl p-6 shadow-xl space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-bold text-white">Flaky Test Intelligence Matrix</h2>
+          <p class="text-xs text-zinc-400 mt-0.5">Automated detection of non-deterministic specs and timing race conditions</p>
+        </div>
+        <span class="text-xs font-mono px-2 py-1 rounded bg-amber-950/70 text-amber-300 border border-amber-800">
+          2 Flaky Tests Identified
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Flaky Test 1 -->
+        <div class="bg-[#0a0a0a] border border-amber-900/50 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-950 text-amber-300 border border-amber-800">
+              40% Flakiness (4/10 Fails)
+            </span>
+            <span class="text-xs font-mono text-zinc-400">Shopping Cart Suite</span>
+          </div>
+
+          <h3 class="text-sm font-bold text-white">Remove product from cart & recalculate tax</h3>
+          <p class="text-xs text-zinc-300">Failure Mode: DOM mutation race condition in subtotal animation listener</p>
+
+          <div class="pt-2">
+            <div class="text-[11px] font-mono text-zinc-400 mb-1">Execution History (Last 10 Runs):</div>
+            <div class="flex items-center gap-1.5 font-mono text-xs">
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-rose-950 text-rose-400 border border-rose-800 font-bold">✗</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-rose-950 text-rose-400 border border-rose-800 font-bold">✗</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-rose-950 text-rose-400 border border-rose-800 font-bold">✗</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center justify-between text-xs">
+            <span class="text-zinc-500 font-mono">Suggested: await expect(el).toBeAttached()</span>
+            <a href="/diagnosis.html" class="text-blue-400 hover:underline font-semibold">Diagnose &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Flaky Test 2 -->
+        <div class="bg-[#0a0a0a] border border-amber-900/50 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-950 text-amber-300 border border-amber-800">
+              30% Flakiness (3/10 Fails)
+            </span>
+            <span class="text-xs font-mono text-zinc-400">Checkout Suite</span>
+          </div>
+
+          <h3 class="text-sm font-bold text-white">Stripe checkout payment webhook simulation</h3>
+          <p class="text-xs text-zinc-300">Failure Mode: Webhook roundtrip acknowledgment latency exceeding 5000ms</p>
+
+          <div class="pt-2">
+            <div class="text-[11px] font-mono text-zinc-400 mb-1">Execution History (Last 10 Runs):</div>
+            <div class="flex items-center gap-1.5 font-mono text-xs">
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-rose-950 text-rose-400 border border-rose-800 font-bold">✗</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-rose-950 text-rose-400 border border-rose-800 font-bold">✗</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-rose-950 text-rose-400 border border-rose-800 font-bold">✗</span>
+              <span class="w-6 h-6 rounded flex items-center justify-center bg-emerald-950 text-emerald-400 border border-emerald-800 font-bold">✓</span>
+            </div>
+          </div>
+
+          <div class="pt-2 flex items-center justify-between text-xs">
+            <span class="text-zinc-500 font-mono">Suggested: Extend mock timeout to 10s</span>
+            <a href="/diagnosis.html" class="text-blue-400 hover:underline font-semibold">Diagnose &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side-by-Side Run Comparison Panel -->
+    <div class="bg-[#141414] border border-[#262626] rounded-2xl p-6 shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#262626] pb-4">
+        <div>
+          <h2 class="text-lg font-bold text-white">Side-by-Side Execution Comparison</h2>
+          <p class="text-xs text-zinc-400 mt-0.5">Differential analysis between Run #1042 (Failed) and Run #1041 (Passed)</p>
+        </div>
+        <div class="text-xs font-mono text-zinc-400">Target: Login with valid credentials</div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Run A (Failed) -->
+        <div class="bg-[#0a0a0a] border border-rose-900/60 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-white">Run #1042 (Latest)</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-950 text-rose-300 border border-rose-800">
+              FAILED
+            </span>
+          </div>
+          <div class="space-y-1.5 text-xs font-mono">
+            <div class="text-zinc-400"><span class="text-zinc-500">Duration:</span> 3,240 ms (Timeout)</div>
+            <div class="text-zinc-400"><span class="text-zinc-500">Browser:</span> Chromium 130.0</div>
+            <div class="text-zinc-400"><span class="text-zinc-500">Commit:</span> 8f21c0e (Refactor login component)</div>
+          </div>
+          <div class="p-2.5 rounded bg-rose-950/20 border border-rose-900/40 text-[11px] font-mono text-rose-300">
+            Error: Timeout 30000ms waiting for locator("button[type=submit]")
+          </div>
+        </div>
+
+        <!-- Run B (Passed) -->
+        <div class="bg-[#0a0a0a] border border-emerald-900/60 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-white">Run #1041 (Baseline)</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">
+              PASSED
+            </span>
+          </div>
+          <div class="space-y-1.5 text-xs font-mono">
+            <div class="text-zinc-400"><span class="text-zinc-500">Duration:</span> 2,780 ms</div>
+            <div class="text-zinc-400"><span class="text-zinc-500">Browser:</span> Chromium 130.0</div>
+            <div class="text-zinc-400"><span class="text-zinc-500">Commit:</span> 4a19b8d (Initial baseline)</div>
+          </div>
+          <div class="p-2.5 rounded bg-emerald-950/20 border border-emerald-900/40 text-[11px] font-mono text-emerald-300">
+            Success: 4 assertions passed with zero retries
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

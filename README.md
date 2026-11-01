@@ -6,17 +6,25 @@ Repository: https://github.com/0xyz-exe/testpilot-ai
 
 ## Screenshots
 
-### Test Execution & Run Overview
-![Test runs](docs/screenshots/01_test_runs.png)
+### 1. Test Execution & Run Overview
+Tampilan ringkasan eksekusi pengujian menyajikan metrik pemantauan pipeline pengujian Playwright secara real-time lintas lingkungan (Staging, Production, Internal), matriks pengujian lintas mesin peramban (Chromium 130, Firefox 131, WebKit 18), kartu status proyek aktif dengan indikator pass rate dan fail rate terperinci, serta tabel riwayat run terbaru lengkap dengan badge status berkode warna (PASSED, FAILED, FLAKY), durasi eksekusi milidetik, tautan artefak (tangkapan layar PNG dan arsip trace ZIP), dan tombol aksi diagnosis instan.
 
-### AI Root-Cause Failure Diagnosis
-![AI diagnosis](docs/screenshots/02_ai_diagnosis.png)
+![Test Execution & Run Overview](docs/screenshots/01_test_runs.png)
 
-### Playwright Test Suite Management
-![Test editor](docs/screenshots/03_test_editor.png)
+### 2. AI Root-Cause Failure Diagnosis
+Antarmuka investigasi akar masalah kegagalan pengujian bertenaga AI mengkorelasikan berbagai lapisan bukti pengujian—termasuk timeout selektor Playwright, inspeksi mutasi pohon DOM, log konsol peramban, dan jejak lalu lintas jaringan HAR—untuk mengidentifikasi penyebab kegagalan dengan tingkat keyakinan terukur (98.4%), menyajikan rekomendasi patch kode Playwright otomatis dalam format visual git diff yang membandingkan kode lama versus kode perbaikan, serta menyediakan tombol aksi instan untuk menerapkan perbaikan dan memverifikasi ulang pengujian.
 
-### Test Metrics & Diagnostic Reports
-![Test reports](docs/screenshots/04_test_reports.png)
+![AI Root-Cause Failure Diagnosis](docs/screenshots/02_ai_diagnosis.png)
+
+### 3. Playwright Test Suite Management
+Workspace manajemen suite pengujian menyediakan direktori hierarki suite dan kasus uji yang terstruktur di panel kiri, dilengkapi dengan generator uji bahasa alami berbasis model GPT-4o untuk menyintesis skenario pengujian Playwright web-first secara otomatis dari deskripsi kebutuhan pengguna, serta editor kode interaktif berfitur penyorotan sintaks TypeScript lengkap dengan kontrol sandbox eksekusi mandiri, pemformatan kode, dan penyimpanan revisi suite.
+
+![Playwright Test Suite Management](docs/screenshots/03_test_editor.png)
+
+### 4. Test Metrics & Diagnostic Reports
+Dashboard analitik kualitas dan intelijen pengujian menyajikan metrik agregat kesehatan pipeline (248 run dieksekusi, pass rate global 92.7%, rasio flakiness 4.1%, dan rata-rata durasi 2.84 detik), matriks pelacakan uji flaky dengan visualisasi rekam jejak status 10 run terakhir beserta pola akar penyebab race condition, panel komparasi eksekusi berdampingan (*side-by-side run diff*), serta opsi ekspor laporan kepatuhan formal dalam format Allure, JUnit XML, dan PDF.
+
+![Test Metrics & Diagnostic Reports](docs/screenshots/04_test_reports.png)
 
 ## Quick Start
 

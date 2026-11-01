@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestPilot AI - Test Execution & Run Overview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0a',
+            surface: '#141414',
+            surfaceHover: '#1c1c1c',
+            border: '#262626',
+            pass: '#10b981',
+            fail: '#ef4444',
+            flaky: '#f59e0b',
+            running: '#3b82f6',
+            draft: '#8b5cf6',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0a0a0a; color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0a0a0a]">
+  <!-- Top Navigation Header -->
+  <header class="border-b border-[#262626] bg-[#141414]/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 font-black text-sm">
+            ⚡
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">TestPilot AI</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">PLAYWRIGHT ENGINE v1.48</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-1">
+          <a href="/" class="px-3 py-1.5 rounded-md text-sm font-semibold bg-[#262626] text-white">Test Runs</a>
+          <a href="/diagnosis.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">AI Diagnosis</a>
+          <a href="/editor.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Suite & Editor</a>
+          <a href="/reports.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Metrics & Reports</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>RUNNER ACTIVE • 4 WORKERS</span>
+        </div>
+        <div class="text-xs text-zinc-400 font-mono">secops@testpilot.ai</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8 space-y-8">
+    <!-- Header with Action CTAs -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#262626] pb-6">
+      <div>
+        <div class="flex items-center gap-3">
+          <h1 class="text-3xl font-extrabold tracking-tight text-white">Test Execution & Run Overview</h1>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            Pipeline Green
+          </span>
+        </div>
+        <p class="text-zinc-400 mt-1">
+          Automated multi-browser Playwright test orchestration, failure diagnosis, and live execution telemetry.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-lg text-xs font-semibold">
+          Filter: All Runs ▼
+        </button>
+        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-blue-600/20 flex items-center gap-1.5">
+          <span>▶</span> Run All Active Suites
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Projects Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <!-- Project 1 -->
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 hover:border-zinc-700 transition-colors relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-white text-base">E-Commerce Storefront Platform</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">STAGING</span>
+        </div>
+        <p class="text-xs text-zinc-400 mt-1">45 tests • 89% pass rate • 4 workers parallel</p>
+        <div class="mt-4 flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">40 PASSED</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-950 text-rose-400 border border-rose-800">4 FAILED</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-950 text-amber-400 border border-amber-800">1 FLAKY</span>
+        </div>
+        <div class="mt-4 pt-3 border-t border-[#262626] flex items-center justify-between text-xs text-zinc-500 font-mono">
+          <span>Last run: 4m ago</span>
+          <a href="/diagnosis.html" class="text-blue-400 hover:underline">Investigate Failures &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 hover:border-zinc-700 transition-colors relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-white text-base">FinTech Auth & Identity Flow</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">PRODUCTION</span>
+        </div>
+        <p class="text-xs text-zinc-400 mt-1">32 tests • 96% pass rate • strict isolation</p>
+        <div class="mt-4 flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">31 PASSED</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-zinc-800 text-zinc-400">0 FAILED</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-950 text-amber-400 border border-amber-800">1 FLAKY</span>
+        </div>
+        <div class="mt-4 pt-3 border-t border-[#262626] flex items-center justify-between text-xs text-zinc-500 font-mono">
+          <span>Last run: 18m ago</span>
+          <span class="text-emerald-400">Healthy</span>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="bg-[#141414] border border-[#262626] rounded-xl p-5 hover:border-zinc-700 transition-colors relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-white text-base">Cloud SaaS Multi-Tenant Console</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">INTERNAL</span>
+        </div>
+        <p class="text-xs text-zinc-400 mt-1">18 tests • 100% pass rate • zero retries</p>
+        <div class="mt-4 flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">18 PASSED</span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-zinc-800 text-zinc-400">0 FAILED</span>
+        </div>
+        <div class="mt-4 pt-3 border-t border-[#262626] flex items-center justify-between text-xs text-zinc-500 font-mono">
+          <span>Last run: 1h ago</span>
+          <span class="text-emerald-400">All Passed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Execution Telemetry & Runs Table -->
+    <div class="bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden shadow-xl">
+      <div class="p-6 border-b border-[#262626] flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-white">Recent Playwright Test Runs</h2>
+          <p class="text-xs text-zinc-400 mt-0.5">Real-time status updates across Chromium, Firefox, and WebKit test matrix</p>
+        </div>
+        <div class="flex items-center gap-2 font-mono text-xs">
+          <span class="px-2.5 py-1 rounded bg-[#1c1c1c] text-zinc-300 border border-zinc-800">Browser Matrix: 3 Engines</span>
+          <span class="px-2.5 py-1 rounded bg-[#1c1c1c] text-zinc-300 border border-zinc-800">Total Runs: 248</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-[#1a1a1a] text-zinc-400 text-xs font-semibold uppercase tracking-wider border-b border-[#262626]">
+            <tr>
+              <th class="px-6 py-3.5">Status</th>
+              <th class="px-6 py-3.5">Test Case & Suite</th>
+              <th class="px-6 py-3.5">Browser Engine</th>
+              <th class="px-6 py-3.5">Duration</th>
+              <th class="px-6 py-3.5">Artifacts</th>
+              <th class="px-6 py-3.5 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#262626] text-zinc-200">
+            <!-- Row 1: Failed Test with Diagnose CTA -->
+            <tr class="bg-rose-950/10 hover:bg-rose-950/20 transition-colors">
+              <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider bg-rose-950 text-rose-300 border border-rose-800 flex items-center gap-1.5 w-fit">
+                  <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> FAILED
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <div class="font-bold text-white">Login with valid credentials</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Authentication & Session Suite • Retry: 1</div>
+                <div class="text-[11px] text-rose-400 font-mono mt-1">Timeout 30000ms exceeded waiting for selector "button[type=submit]"</div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-blue-400"></span> Chromium 130.0
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">3,240 ms</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-800 text-zinc-300 border border-zinc-700">📸 PNG</span>
+                  <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-800 text-zinc-300 border border-zinc-700">📊 TRACE</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <a href="/diagnosis.html" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-bold shadow-md shadow-blue-600/30 inline-flex items-center gap-1">
+                  <span>🔧</span> AI Diagnose
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 2: Passed Test -->
+            <tr class="hover:bg-[#1a1a1a] transition-colors">
+              <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 w-fit">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> PASSED
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <div class="font-semibold text-white">Login with invalid password (error toast)</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Authentication & Session Suite</div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-blue-400"></span> Chromium 130.0
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">1,850 ms</td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-800 text-zinc-400">📝 LOGS</span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <button class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs rounded border border-zinc-700">Re-run</button>
+              </td>
+            </tr>
+
+            <!-- Row 3: Passed Test on Firefox -->
+            <tr class="hover:bg-[#1a1a1a] transition-colors">
+              <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 w-fit">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> PASSED
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <div class="font-semibold text-white">Add multi-variant item to cart</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Shopping Cart & Checkout Suite</div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-orange-400"></span> Firefox 131.0
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">2,410 ms</td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-800 text-zinc-400">📸 PNG</span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <button class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs rounded border border-zinc-700">Re-run</button>
+              </td>
+            </tr>
+
+            <!-- Row 4: Flaky Test on WebKit -->
+            <tr class="bg-amber-950/10 hover:bg-amber-950/20 transition-colors">
+              <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider bg-amber-950 text-amber-300 border border-amber-800 flex items-center gap-1.5 w-fit">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> FLAKY
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <div class="font-semibold text-white">Remove product from cart & recalculate tax</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Shopping Cart & Checkout Suite • Retries: 2</div>
+                <div class="text-[11px] text-amber-400 font-mono mt-1">AssertionError: DOM mutation race condition during async total calculate</div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-purple-400"></span> WebKit 18.0
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">4,120 ms</td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-800 text-zinc-300 border border-zinc-700">📊 TRACE</span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <a href="/reports.html" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-amber-300 text-xs rounded border border-zinc-700">History</a>
+              </td>
+            </tr>
+
+            <!-- Row 5: Passed Biometric Passkey -->
+            <tr class="hover:bg-[#1a1a1a] transition-colors">
+              <td class="px-6 py-4">
+                <span class="px-2.5 py-1 rounded text-xs font-black uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 w-fit">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> PASSED
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <div class="font-semibold text-white">Biometric passkey authentication step-up</div>
+                <div class="text-xs text-zinc-400 mt-0.5">Biometric Passkey & 2FA TOTP</div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-blue-400"></span> Chromium 130.0
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono text-xs text-zinc-300">2,920 ms</td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-zinc-800 text-zinc-400">📸 PNG</span>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <button class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs rounded border border-zinc-700">Re-run</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

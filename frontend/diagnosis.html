@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TestPilot AI - AI Root-Cause Failure Diagnosis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0a',
+            surface: '#141414',
+            surfaceHover: '#1c1c1c',
+            border: '#262626',
+            pass: '#10b981',
+            fail: '#ef4444',
+            flaky: '#f59e0b',
+            running: '#3b82f6',
+            draft: '#8b5cf6',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0a0a0a; color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0a0a0a]">
+  <!-- Navigation Header -->
+  <header class="border-b border-[#262626] bg-[#141414]/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 font-black text-sm">
+            ⚡
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">TestPilot AI</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">PLAYWRIGHT ENGINE v1.48</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center space-x-1">
+          <a href="/" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Test Runs</a>
+          <a href="/diagnosis.html" class="px-3 py-1.5 rounded-md text-sm font-semibold bg-[#262626] text-white">AI Diagnosis</a>
+          <a href="/editor.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Suite & Editor</a>
+          <a href="/reports.html" class="px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-[#1c1c1c] transition-colors">Metrics & Reports</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2 px-2.5 py-1 rounded-full bg-rose-950/60 border border-rose-800/60 text-rose-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+          <span>1 ACTIVE DIAGNOSIS IN FLIGHT</span>
+        </div>
+        <div class="text-xs text-zinc-400 font-mono">secops@testpilot.ai</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8 space-y-6">
+    <!-- Top Breadcrumb & Status -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#262626] pb-6">
+      <div>
+        <div class="flex items-center gap-2 text-xs text-zinc-400 font-mono mb-1">
+          <a href="/" class="hover:underline">E-Commerce Storefront Platform</a>
+          <span>/</span>
+          <span>Authentication Suite</span>
+          <span>/</span>
+          <span class="text-zinc-200">Run #1042</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <h1 class="text-3xl font-extrabold tracking-tight text-white">AI Root-Cause Failure Diagnosis</h1>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/30">
+            FAILED (Timeout 30s)
+          </span>
+        </div>
+        <p class="text-zinc-400 mt-1">
+          Target: <code class="text-xs bg-zinc-900 px-1.5 py-0.5 rounded text-blue-300">test('user login with valid credentials')</code> • Chromium 130.0 • Executed 4m ago
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+          <span>📊</span> Inspect Trace (.zip)
+        </button>
+        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-blue-600/20 flex items-center gap-1.5">
+          <span>▶</span> Re-run in Sandbox
+        </button>
+      </div>
+    </div>
+
+    <!-- Diagnostic Banner Card -->
+    <div class="bg-gradient-to-r from-rose-950/30 via-[#141414] to-[#141414] border border-rose-900/60 rounded-2xl p-6 shadow-xl space-y-6">
+      <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 border-b border-[#262626]">
+        <div>
+          <div className="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">
+              ROOT CAUSE IDENTIFIED
+            </span>
+            <span class="text-xs font-mono text-zinc-400 ml-2">Confidence: <strong class="text-emerald-400 font-bold">98.4%</strong> (Rules + GPT-4o Model)</span>
+          </div>
+          <h2 class="text-2xl font-black text-white mt-2">
+            Selector Timeout: Button Not Resolving Click Target
+          </h2>
+          <p class="text-sm text-zinc-300 mt-2 max-w-4xl leading-relaxed">
+            The test runner timed out after 30,000ms attempting to click <code class="text-rose-300 font-mono text-xs bg-black/60 px-1.5 py-0.5 rounded">button[type=submit]</code>. DOM tree analysis of the failure frame indicates that frontend commit <code class="text-blue-300 font-mono text-xs">8f21c0e</code> refactored the login button component, replacing the native <code class="text-amber-300 font-mono text-xs">type="submit"</code> attribute with a custom class and test attribute: <code class="text-emerald-300 font-mono text-xs">button.submit-btn[data-testid="login-submit"]</code>.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-end gap-1.5 shrink-0 bg-[#0a0a0a] border border-[#262626] p-4 rounded-xl text-right">
+          <div class="text-[11px] font-mono text-zinc-500 uppercase">Analysis Time</div>
+          <div class="text-xl font-bold font-mono text-white">420 ms</div>
+          <div class="text-[10px] text-emerald-400 font-mono">Telemetry Correlated</div>
+        </div>
+      </div>
+
+      <!-- Evidence Triangulation Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Error Log -->
+        <div class="bg-[#0a0a0a] border border-[#262626] rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-zinc-400 uppercase font-mono">
+            <span>Playwright Error</span>
+            <span class="text-rose-400">TIMEOUT</span>
+          </div>
+          <p class="text-xs font-mono text-rose-300 bg-rose-950/30 p-2.5 rounded border border-rose-900/40">
+            Timeout 30000ms exceeded waiting for locator("button[type=submit]")
+          </p>
+          <div class="text-[11px] text-zinc-500 font-mono">Line 7: auth.spec.ts</div>
+        </div>
+
+        <!-- DOM State -->
+        <div class="bg-[#0a0a0a] border border-[#262626] rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-zinc-400 uppercase font-mono">
+            <span>DOM Inspection</span>
+            <span class="text-amber-400">CHANGED</span>
+          </div>
+          <p class="text-xs font-mono text-amber-200 bg-amber-950/30 p-2.5 rounded border border-amber-900/40">
+            &lt;button class="submit-btn" data-testid="login-submit"&gt;Sign In&lt;/button&gt;
+          </p>
+          <div class="text-[11px] text-zinc-500 font-mono">Attribute type="submit" missing</div>
+        </div>
+
+        <!-- Console Log -->
+        <div class="bg-[#0a0a0a] border border-[#262626] rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-zinc-400 uppercase font-mono">
+            <span>Browser Console</span>
+            <span class="text-emerald-400">CLEAN</span>
+          </div>
+          <p class="text-xs font-mono text-zinc-300 bg-zinc-900 p-2.5 rounded border border-zinc-800">
+            0 uncaught exceptions. Next.js router hydration finished in 84ms.
+          </p>
+          <div class="text-[11px] text-zinc-500 font-mono">No JS runtime errors</div>
+        </div>
+
+        <!-- Network -->
+        <div class="bg-[#0a0a0a] border border-[#262626] rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-zinc-400 uppercase font-mono">
+            <span>Network HAR</span>
+            <span class="text-emerald-400">200 OK</span>
+          </div>
+          <p class="text-xs font-mono text-zinc-300 bg-zinc-900 p-2.5 rounded border border-zinc-800">
+            GET /login 200 OK (112ms)<br>POST /api/auth 200 OK (64ms)
+          </p>
+          <div class="text-[11px] text-zinc-500 font-mono">All HTTP resources healthy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggested Automated Code Fix -->
+    <div class="bg-[#141414] border border-[#262626] rounded-2xl p-6 shadow-xl space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-emerald-400 text-lg">💡</span>
+          <h3 class="text-lg font-bold text-white">Recommended Automated Patch (Playwright Test)</h3>
+        </div>
+        <span class="text-xs font-mono text-zinc-400">Spec: tests/auth/login.spec.ts</span>
+      </div>
+
+      <!-- Diff Viewer -->
+      <div class="bg-[#0a0a0a] border border-[#262626] rounded-xl p-4 font-mono text-xs overflow-x-auto leading-relaxed">
+        <div class="text-zinc-500 pb-2 mb-2 border-b border-[#262626]">
+          @@ -5,4 +5,4 @@ test('user login with valid credentials', async ({ page }) => {
+        </div>
+        <div class="text-zinc-400">&nbsp;&nbsp;await page.fill('input#email', 'user@storefront.internal');</div>
+        <div class="text-zinc-400">&nbsp;&nbsp;await page.fill('input#password', 'P@ssw0rd2026!');</div>
+        <div class="bg-rose-950/40 text-rose-300 px-2 py-0.5 rounded my-0.5 flex items-center">
+          <span class="text-rose-500 font-bold mr-2">-</span>
+          <span>await page.click('button[type=submit]');</span>
+        </div>
+        <div class="bg-emerald-950/40 text-emerald-300 px-2 py-0.5 rounded my-0.5 flex items-center">
+          <span class="text-emerald-500 font-bold mr-2">+</span>
+          <span>await page.click('button.submit-btn[data-testid="login-submit"]');</span>
+        </div>
+        <div class="text-zinc-400">&nbsp;&nbsp;await expect(page).toHaveURL('/dashboard');</div>
+        <div class="text-zinc-400">&nbsp;&nbsp;await expect(page.locator('.user-avatar')).toBeVisible();</div>
+      </div>
+
+      <!-- Patch Apply Action Toolbar -->
+      <div class="flex items-center justify-between pt-2">
+        <div class="text-xs text-zinc-400 flex items-center gap-2">
+          <span>AI Engine: <strong class="text-zinc-200">TestPilot RootCause-LLM v2</strong></span>
+          <span>•</span>
+          <span>Target File: <strong class="text-zinc-200">tests/auth/login.spec.ts</strong></span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-semibold">
+            Edit Manually
+          </button>
+          <button class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-emerald-600/30 flex items-center gap-1.5">
+            <span>✓</span> Apply Fix & Re-run Verification
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
